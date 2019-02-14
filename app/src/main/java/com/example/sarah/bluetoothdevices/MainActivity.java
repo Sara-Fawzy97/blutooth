@@ -21,7 +21,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
+
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -32,25 +32,22 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
 
 
-   // private static final Object UUID.fromString("00001101-0000-1000-0000-00805F9B34FB"); ;
     Button addDevices;
-ToggleButton toggleButton;
     BluetoothAdapter blue;
-ListView list,list2;
-TextView paired,discover;
-BluetoothSocket socket;
- //static final UUID myUUID =UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    ListView list,list2;
+    TextView paired,discover;
+    BluetoothSocket socket;
  ArrayAdapter<String> adapter;
-    BroadcastReceiver br;
-    String EXTRA_ADDRESS;
+    String EXTRA_ADDRESS="address";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toggleButton=(ToggleButton) findViewById(R.id.toggleButton);
-        addDevices=(Button) findViewById(R.id.add);
+
+        addDevices= findViewById(R.id.add);
         list=(ListView)findViewById(R.id.list);
         list2=(ListView)findViewById(R.id.list2);
         paired=(TextView) findViewById(R.id.paired);
@@ -59,22 +56,6 @@ BluetoothSocket socket;
      //   OutputStream outputStream = socket.getOutputStream();
         pairedDevices();
 
-
-
-
-toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if(toggleButton.isChecked())
-        {toggleButton.setChecked(true);
-            try {
-                led("a");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-});
 
     }
 
@@ -104,14 +85,16 @@ toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListen
     AdapterView.OnItemClickListener clickListener= new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-           // String in =((TextView) view).getText().toString();
-           // String ad=in.substring((in.length())-17);
-Intent intent= new Intent(MainActivity.this,Connect.class);
- //intent.putExtra(EXTRA_ADDRESS,"Sara");
- Bundle b= new Bundle();
- b.putString("name","sara");
- intent.putExtras(b);
-startActivity(intent);
+           // get device mac address
+            String in =((TextView) view).getText().toString();
+           String ad=in.substring((in.length())-17);
+          Intent intent= new Intent(MainActivity.this,Connect.class);
+            //new activity will recieve that
+          intent.putExtra(EXTRA_ADDRESS,ad);
+ //Bundle b= new Bundle();
+ //b.putString("name","sara");
+ //intent.putExtras(b);
+          startActivity(intent);
         }
     };
 
@@ -145,15 +128,5 @@ startActivity(intent);
 
 
 
-
-
-
-
-
-public void led(String s)throws IOException
-{
-    if(socket!=null)
-    {socket.getOutputStream().write(s.toString().getBytes());}
-}
 
 }

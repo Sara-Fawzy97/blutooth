@@ -9,8 +9,8 @@
 
     <Button
         android:id="@+id/add"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
+        android:layout_width="117dp"
+        android:layout_height="66dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -18,7 +18,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:onClick="add_devices"
-        android:text="scan"
+        android:text="paired devices"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
