@@ -8,6 +8,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,7 +58,16 @@ public class MainActivity extends AppCompatActivity {
      //   OutputStream outputStream = socket.getOutputStream();
         pairedDevices();
 
-
+      Handler handler=new Handler(){
+          public void handleMessge(Message msg){
+              switch (msg.what){
+                  case 1:
+                      byte[]readBuf= (byte[])msg.obj;
+                      String message=new String(readBuf,0,msg.arg1);
+                      Toast.makeText(getApplicationContext(),message+"Done",Toast.LENGTH_SHORT).show();
+              }
+          }
+      };
     }
 
     public void pairedDevices ()
@@ -100,29 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //  هنا عشان يعمل scan على الاجهزة كنت بحاول اجرب ومكنش بيظبط  hna kont b7awl 3shan y3ml scan w mknsh by3ml
-  public void add_devices(View view)
-  { blue.startDiscovery();
-      IntentFilter intentFilter=new IntentFilter(BluetoothDevice.ACTION_FOUND);
-      registerReceiver(br,intentFilter);
 
-      BroadcastReceiver br=new BroadcastReceiver() {
-          @Override
-          public void onReceive(Context context, Intent intent) {
-
-              String action=intent.getAction();
-              if(BluetoothDevice.ACTION_FOUND.equals(action))
-              {
-                  BluetoothDevice bd=intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                  //  Log.i("","Device "+bd.getName());
-                  adapter.add(bd.getName());
-                  list2.setAdapter(adapter);
-                  //  list2.setAdapter(adapter);
-                  //   Toast.makeText(getApplicationContext(),bd.getName(),Toast.LENGTH_LONG).show();
-                  // blue.cancelDiscovery();
-              }
-          }};
-
-  }
 
 
 
